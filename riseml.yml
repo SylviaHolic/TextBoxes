@@ -1,0 +1,18 @@
+deploy:
+  image:
+    name: riseml/caffe-prereqs
+    install:
+    - wget "https://www.dropbox.com/s/g8pjzv2de9gty8g/TextBoxes_icdar13.caffemodel?dl=1" -O TextBoxes_icdar13.caffemodel
+    - apt-get install -y python-numpy --allow-unauthenticated
+    - make -j 8 && make py
+    - pip install matplotlib protobuf scikit-image riseml opencv-python
+  run:
+    - PYTHONPATH=$(pwd)/python python demo.py
+  gpu: yes
+  input:
+    image: image/jpeg
+  output:
+    image: image/jpeg
+  demo:
+    title: TextBoxes Demo 
+    description: Demo for the implementation of 'TextBoxes A Fast Text Detector with a Single Deep Neural Network' by Minghui Liao et al.
